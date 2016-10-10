@@ -9,40 +9,85 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-    <title>finance-historicaldate Demo</title>
-    <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
-    <link rel="import" href="../finance-historicaldate.html">
-  </head>
-  <body unresolved>
-
-    <p>An example of <code>&lt;finance-historicaldate&gt;</code>:</p>
-
-    <p>Make words! <button id="saybtn">Say Something</button></p>
-    <p>Make lasers! <button id="laserbtn">Fire lasers</button></p>
-
-    <finance-historicaldate author='{"name": "Lord Meowser", "image": "http://lorempixel.com/g/300/200/cats/"}' fancy>
-      <h2>Hello finance-historicaldate</h2>
-    </finance-historicaldate>
-
-    <script>
-      var seedElement = document.querySelector('finance-historicaldate');
-
-      document.querySelector('#saybtn').addEventListener('click', function() {
-        alert(seedElement.sayHello('Hallo!'));
-      });
-
-      document.querySelector('#laserbtn').addEventListener('click', function() {
-        seedElement.fireLasers();
-      });
-
-      document.addEventListener("finance-historicaldate-lasers", function(e) {
-        console.log(e.detail.sound);
-      });
-
-    </script>
-
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>finance-historicaldate Demo</title>
+  <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+  <link rel="import" href="../finance-historicaldate.html">
+</head>
+<body unresolved>
+<style is="custom-style">
+table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 20px;
+}
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+  padding: 8px;
+  line-height: 1.42857143;
+  vertical-align: top;
+  border-top: 1px solid #dddddd;
+}
+.table > thead > tr > th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #dddddd;
+}
+.table > thead:first-child > tr:first-child > td {
+  border-top: 0;
+}
+.table > tbody + tbody {
+  border-top: 2px solid #dddddd;
+}
+.table .table {
+  background-color: #ffffff;
+}
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: #d6d6d6;
+}
+</style>
+<template is="dom-bind" id="bind">
+  <finance-historicaldate symbol="yhoo" end="2010-03-10" start="2009-9-11" data="{{response}}"></finance-historicaldate>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Open</th>
+        <th>High</th>
+        <th>Low</th>
+        <th>Close</th>
+        <th>Volume</th>
+        <th>Adj_Close</th>
+      </tr>
+    </thead>
+    <tbody>
+      <template is="dom-repeat" items="{{response}}">
+        <tr>
+          <td>{{item.Date}}</td>
+          <td>{{item.Open}}</td>
+          <td>{{item.High}}</td>
+          <td>{{item.Low}}</td>
+          <td>{{item.Close}}</td>
+          <td>{{item.Volume}}</td>
+          <td>{{item.Adj_Close}}</td>
+        </tr>
+      </template>
+    </tbody>
+  </table>
+</template>
+<script>
+window.addEventListener('WebComponentsReady', function(e) {
+  var bind = document.querySelector('#bind');
+  var fh = document.querySelector('finance-historicaldate');
+  fh.addEventListener('finance-historicaldate-ready', function(data){
+    console.log(bind.response)
+  })
+});
+</script>
+</body>
 </html>
