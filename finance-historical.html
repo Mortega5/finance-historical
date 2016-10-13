@@ -11,23 +11,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-ajax/iron-ajax.html">
 <!--
-An element providing a solution to no problem in particular.
+An polymer element providing finance historical of companies
 
 Example:
-
-<finance-historicaldate></finance-historicaldate>
-
-Example:
-
-<finance-historicaldate>
-<h2>Hello finance-historicaldate</h2>
-</finance-historicaldate>
-
+```
+<finance-historical symbol="yhoo" end="2010-03-10" start="2009-9-11"></finance-historical>
+```
 @demo demo/index.html
 @hero hero.svg
 -->
 
-<dom-module id="finance-historicaldate">
+<dom-module id="finance-historical">
   <template>
   <style>
   :host {
@@ -38,29 +32,41 @@ Example:
 
 <script>
 Polymer({
-  is: 'finance-historicaldate',
+  is: 'finance-historical',
 
   properties: {
     _query: {
       type: String,
       computed:'_generateQuery(symbol,start,end)'
     },
+  /**
+    * Symbol of the company(ies) which we want take data
+    **/
     symbol: {
       type: String,
       notify: true
     },
+    /**
+    * End date interval
+    */
     end: {
       type: Date,
       value: function(){return new Date()},
       notify:true
     },
+    /**
+    * Start date interval
+    */
     start: {
       type: Date,
       notify: true
     },
+    /**
+    * Data of company(ies) found
+    **/
     data: {
       type: Array,
-      value: function(){return []},
+      value: function(){return [ ]},
       notify: true
     }
   },
@@ -86,7 +92,15 @@ Polymer({
     query_start = q_start.year + '-' + q_start.month + '-' + q_start.day;
     query_end = q_end.year + '-' + q_end.month + '-' + q_end.day;
     // ADD symbol
-    query ='select * from yahoo.finance.historicaldata where symbol = "' + symbol + '"';
+    var symbol_list = symbol.split(/[\,\;]/);
+    var symbols = "";
+    for (var i=0;i<symbol_list.length;i++){
+      if (i>0){
+        symbols +=',';
+      }
+      symbols += '"' + symbol_list[i]+ '"'
+    }
+    query ='select * from yahoo.finance.historicaldata where symbol in (' + symbols + ')';
     // ADD start
     query += ' and startDate = "' + query_start + '"';
     // ADD end
@@ -97,7 +111,7 @@ Polymer({
   _yqlQuery: function(query,callback){
     if (!query || !callback){
       console.error('Query and callback is required');
-      this.fire('finance-historicaldate-error',{error:'Query and callback is required'});
+      this.fire('finance-historical-error',{error:'Query and callback is required'});
     } else {
       var script = document.createElement('script');
       var encodedQuery = encodeURIComponent(query);
@@ -112,7 +126,7 @@ Polymer({
   },
   requestData: function(){
     if (this.symbol && this.start && this.end){
-      this.fire('finance-historicaldate-inicated');
+      this.fire('finance-historical-inicated');
       this._yqlQuery(this._query, this._financeApiResponse.bind(this));
     }
   },
@@ -121,11 +135,26 @@ Polymer({
       this.requestData();
       return null;
     } else if (!data.query.results){
-      this.fire('finance-historicaldate-error',{error:{description:'Invalid start,end or symbol'}});
+      this.fire('finance-historical-error',{error:{description:'Invalid start,end or symbol'}});
       return null;
     }
-    this.set('data', data.query.results.quote);
-    this.fire('finance-historicaldate-ready',{data:this.data});
+    var results = data.query.results.quote;
+    var j=0;
+    var init ="";
+    for (var i=0;i<results.length;i++){
+      if (init == ""){
+        var value = [results[i]]
+        this.push('data',value);
+        init = results[i].Symbol;
+      } else if (results[i].Symbol == init){
+        this.push('data.' + j, results[i])
+      } else {
+        j = j +1;
+        init = results[i].Symbol;
+        this.push('data', [results[i]]);
+      }
+    }
+    this.fire('finance-historical-ready',{data:this.data});
   }
 });
 </script>

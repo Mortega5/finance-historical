@@ -1,18 +1,21 @@
 {
-  "name": "finance-historicaldate",
-  "version": "1.0.6",
+  "name": "finance-historical",
+  "version": "0.9.0",
   "authors": [
-    "Anonymous <anonymous@example.com>"
+    "Miguel ortega Moreno <mortega@conwet.com>"
   ],
   "description": "An element providing a solution to no problem in particular.",
   "keywords": [
     "web-component",
     "polymer",
-    "seed"
+    "seed",
+    "finance",
+    "historical",
+    "web-components"
   ],
-  "main": "finance-historicaldate.html",
+  "main": "finance-historical.html",
   "license": "http://polymer.github.io/LICENSE.txt",
-  "homepage": "https://github.com/<USERNAME>/seed-element/",
+  "homepage": "https://github.com/mortega5/finance-historical",
   "ignore": [
     "/.*",
     "/test/"
