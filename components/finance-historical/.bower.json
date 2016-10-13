@@ -1,0 +1,39 @@
+{
+  "name": "finance-historical",
+  "authors": [
+    "Miguel ortega Moreno <mortega@conwet.com>"
+  ],
+  "description": "An element providing a solution to no problem in particular.",
+  "keywords": [
+    "web-component",
+    "polymer",
+    "seed",
+    "finance",
+    "historical",
+    "web-components"
+  ],
+  "main": "finance-historical.html",
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "homepage": "https://github.com/mortega5/finance-historical",
+  "ignore": [
+    "/.*",
+    "/test/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.2.0",
+    "iron-ajax": "^1.4.3"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0"
+  },
+  "_release": "905598f5a3",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "905598f5a35f87c275980f95316d2ced79531b75"
+  },
+  "_source": "git://github.com/Mortega5/finance-historical.git",
+  "_target": "master",
+  "_originalSource": "Mortega5/finance-historical",
+  "_direct": true
+}
