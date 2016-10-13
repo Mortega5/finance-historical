@@ -1,6 +1,8 @@
 # finance-historical
 
-An element providing a starting point for your own reusable Polymer elements.
+An polymer element providing finance historical of companies
+
+[Demo and Docs](https://mortega5.github.io/finance-historical)
 
 
 ## Dependencies
