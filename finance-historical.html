@@ -53,16 +53,14 @@ Polymer({
     end: {
       type: Date,
       value: function(){return new Date()},
-      notify:true,
-      observer: "updateData"
+      notify:true
     },
     /**
     * Start date interval
     */
     start: {
       type: Date,
-      notify: true,
-      observer: "updateData"
+      notify: true
     },
     /**
     * Data of company(ies) found
