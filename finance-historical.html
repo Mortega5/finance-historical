@@ -79,6 +79,9 @@ Polymer({
     this.addEventListener('symbol-changed', this.requestData.bind(this));
     this.requestData();
   },
+  _updateData: function(){
+    this.requestData();
+  },
   _generateQuery: function(symbol,start,end){
     var query_start = new Date(start);
     var query_end = new Date(end);
