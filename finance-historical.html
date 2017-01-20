@@ -44,7 +44,8 @@ Polymer({
     **/
     symbol: {
       type: String,
-      notify: true
+      notify: true,
+      observer: "updateData"
     },
     /**
     * End date interval
@@ -52,14 +53,16 @@ Polymer({
     end: {
       type: Date,
       value: function(){return new Date()},
-      notify:true
+      notify:true,
+      observer: "updateData"
     },
     /**
     * Start date interval
     */
     start: {
       type: Date,
-      notify: true
+      notify: true,
+      observer: "updateData"
     },
     /**
     * Data of company(ies) found
@@ -75,6 +78,9 @@ Polymer({
     this.addEventListener('end-changed', this.requestData.bind(this));
     this.addEventListener('symbol-changed', this.requestData.bind(this));
     this.requestData();
+  },
+  updateData: function(){
+      this.requestData();
   },
   _generateQuery: function(symbol,start,end){
     var query_start = new Date(start);
@@ -127,6 +133,7 @@ Polymer({
   },
   requestData: function(){
     if (this.symbol && this.start && this.end){
+      this.set('data',[]);
       this.fire('finance-historical-inicated');
       this._yqlQuery(this._query, this._financeApiResponse.bind(this));
     }
