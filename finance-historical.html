@@ -44,7 +44,8 @@ Polymer({
     **/
     symbol: {
       type: String,
-      notify: true
+      notify: true,
+      observer:"_updateData"
     },
     /**
     * End date interval
@@ -52,14 +53,16 @@ Polymer({
     end: {
       type: Date,
       value: function(){return new Date()},
-      notify:true
+      notify:true,
+      observer:"_updateData"
     },
     /**
     * Start date interval
     */
     start: {
       type: Date,
-      notify: true
+      notify: true,
+      observer:"_updateData"
     },
     /**
     * Data of company(ies) found
