@@ -10,6 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-ajax/iron-ajax.html">
+
 <!--
 An polymer element providing finance historical of companies
 
@@ -119,7 +120,7 @@ Polymer({
     } else {
       var script = document.createElement('script');
       var encodedQuery = encodeURIComponent(query);
-      var callback_name = 'yahoo_callback_wrapper' + new Date().getTime();
+      var callback_name = 'yahoo_callback_wrapper' + new Date().getTime() + Math.floor((Math.random() * 10000) + 1);
       var that = this;
       window[callback_name] = function(json){
         document.body.removeChild(script);
