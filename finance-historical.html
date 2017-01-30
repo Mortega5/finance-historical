@@ -70,6 +70,11 @@ Polymer({
       type: Array,
       value: function(){return [ ]},
       notify: true
+    },
+    delay: {
+      type:Number,
+      value:0,
+      reflectToAttribute: true
     }
   },
   ready: function(){
@@ -141,30 +146,33 @@ Polymer({
     }
   },
   _financeApiResponse: function(data){
-    if (data.error){
-      this.requestData();
-      return null;
-    } else if (!data.query.results){
-      this.fire('finance-historical-error',{error:{description:'Invalid start,end or symbol'}});
-      return null;
-    }
-    var results = data.query.results.quote;
-    var j=0;
-    var init ="";
-    for (var i=0;i<results.length;i++){
-      if (init == ""){
-        var value = [results[i]]
-        this.push('data',value);
-        init = results[i].Symbol;
-      } else if (results[i].Symbol == init){
-        this.push('data.' + j, results[i])
-      } else {
-        j = j +1;
-        init = results[i].Symbol;
-        this.push('data', [results[i]]);
+    var that = this;
+    window.setTimeout(function(){
+      if (data.error){
+        that.requestData();
+        return null;
+      } else if (!data.query.results){
+        that.fire('finance-historical-error',{error:{description:'Invalid start,end or symbol'}});
+        return null;
       }
-    }
-    this.fire('finance-historical-ready',{data:this.data});
+      var results = data.query.results.quote;
+      var j=0;
+      var init ="";
+      for (var i=0;i<results.length;i++){
+        if (init == ""){
+          var value = [results[i]]
+          that.push('data',value);
+          init = results[i].Symbol;
+        } else if (results[i].Symbol == init){
+          that.push('data.' + j, results[i])
+        } else {
+          j = j +1;
+          init = results[i].Symbol;
+          that.push('data', [results[i]]);
+        }
+      }
+      that.fire('finance-historical-ready',{data:that.data});
+    },this.delay)
   }
 });
 </script>
