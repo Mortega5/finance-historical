@@ -104,7 +104,7 @@ Polymer({
     var that = this;
     window.setTimeout(function(){
       that.set('data',[detail.response]);
-      this._busy = false;
+      that._busy = false;
       that.fire('finance-historical-ready',{data:that.data});
     },this.delay)
   },
