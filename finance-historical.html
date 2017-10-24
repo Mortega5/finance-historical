@@ -103,7 +103,7 @@ Polymer({
   historical_response: function(event,detail){
     var that = this;
     window.setTimeout(function(){
-      that.set('data',[detail.response]);
+      that.set('data',detail.response);
       that._busy = false;
       that.fire('finance-historical-ready',{data:that.data});
     },this.delay)
@@ -114,3 +114,4 @@ Polymer({
 });
 </script>
 </dom-module>
+
